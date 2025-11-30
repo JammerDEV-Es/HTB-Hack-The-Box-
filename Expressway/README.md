@@ -1,7 +1,35 @@
 # Expressway (Easy) 🟢
-<img width="320" height="297" src="[https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/blob/main/Expressway/images/Expressway.png]">
+<div align="center">
+</div>
+<img width="320" height="297" src="https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/blob/main/Expressway/images/Expressway.png">
+</p>
 
 ## Well, this machine didn't seem too complicated to me, to be honest.
 You have to do the reconnaissance phase, including scanning the UDP ports (using `-sU` in `nmap`), and that's where you'll discover what you'll need to use. 
 
 You can use either `hashcat` or `john`, whichever you prefer, but in my case, I used `hashcat` to decrypt the hash using a dictionary. After that, I had to establish an SSH connection with the machine, and you'll have to exploit a vulnerability in the machine.
+
+I'll just add the nmap report:
+
+```java
+# Nmap 7.95 scan initiated Sun Nov 30 10:21:59 2025 as: /usr/lib/nmap/nmap --privileged -sS -vvv --min-rate 5000 -Pn -p- --open -oG allPorts 10.10.11.87
+# Ports scanned: TCP(65535;1-65535) UDP(0;) SCTP(0;) PROTOCOLS(0;)
+Host: 10.10.11.87 (expressway.htb)      Status: Up
+Host: 10.10.11.87 (expressway.htb)      Ports: 22/open/tcp//ssh///
+# Nmap done at Sun Nov 30 10:22:16 2025 -- 1 IP address (1 host up) scanned in 16.88 seconds`
+```
+And then I will go deeper about port '22': 
+```java
+# Nmap 7.95 scan initiated Sun Nov 30 12:46:26 2025 as: /usr/lib/nmap/nmap --privileged -sCV -p22 -oN targeted 10.10.11.87
+Nmap scan report for expressway.htb (10.10.11.87)
+Host is up (0.053s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 10.0p2 Debian 8 (protocol 2.0)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Nov 30 12:46:28 2025 -- 1 IP address (1 host up) scanned in 2.25 seconds
+
+
+
