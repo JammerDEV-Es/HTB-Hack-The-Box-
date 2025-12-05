@@ -5,5 +5,5 @@
 
 # Easy
 ### - [Expressway (Linux) (10.10.11.87)](https://github.com/JammerDEV-Es/HTB-Hack-The-Box-/tree/main/Expressway)
-### - Editor (Linux) (10.10.11.80)
+### - [Editor (Linux) (10.10.11.80)](https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/tree/main/Editor)
 
