@@ -8,3 +8,6 @@
 ### - [Editor (Linux) (10.10.11.80)](https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/tree/main/Editor)
 ### - [Eighteen (Windows) (10.10.11.95)](https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/tree/main/Eighteen)
 
+# Medium
+### - [Strutted (Linux) (10.10.11.59)](https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/tree/main/Eighteen)
+
