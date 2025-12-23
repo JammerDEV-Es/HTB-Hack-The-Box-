@@ -1,4 +1,9 @@
-# HackTheBox 🟩
+
+<div align="center">
+</div>
+<img width="512" height="512" src="https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/blob/main/Strutted/Images/HTB.png">
+</p>
+
 ### This is a repository where I'll put information about each machine I finish, including the resources I used and other details. When the machines are retired, I'll create write-up for them.
 
 ### Next, I will list the difficulties, and after that, the reviews of each machine.
