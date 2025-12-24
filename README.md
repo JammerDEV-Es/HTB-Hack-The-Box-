@@ -27,3 +27,7 @@
 
 ### - [Strutted (Linux) (10.10.11.59)](https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/tree/main/Strutted)
 
+### - [Previous (Linux) (10.10.11.83)](https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/tree/main/Previous)
+
+
+
