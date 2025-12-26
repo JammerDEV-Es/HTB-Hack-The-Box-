@@ -34,4 +34,50 @@ Nmap done: 1 IP address (1 host up) scanned in 9.31 seconds
 ```
 The page title says `PreviousJs`, so it's pretty clear that everything listed needs to be searched for on the page. So, let's search for "PreviousJs CVE," and we'll find that the vulnerability to exploit is `CVE 2025-29927`. I used curl to exploit it, using the URL and the exploit with the -H parameter.
 
-You should see a URL where you'll need to do the same thing. Then, you'll need to search for a username and password; the username is Jeremy. Next, we'll establish an SSH connection in the console to `ssh jeremy@previous.htb`, enter the password, and you'll automatically be logged in. There you'll find the user flag.
+You should see a URL where you'll need to do the same thing. Then, you'll need to search for a username and password; the username is Jeremy. Next, we'll establish an SSH connection in the console to `ssh jeremy@previous.htb`, enter the password, and you'll automatically be logged in. There you'll find the user flag on user.txt.
+
+<div align="center">
+</div>
+<img width="800" height="800" src="https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/blob/main/Previous/images/ssh%40jeremy.png">
+</p>
+
+So now we're going to escalate privileges to root, so let's put `sudo -l`.
+
+<div align="center">
+</div>
+<img width="800" height="800" src="https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/blob/main/Previous/images/sudo -l.png">
+</p>
+
+We're going to go to the `/opt/examples` location and look at the main.tf.
+### (Main.tf)
+```tf
+terraform {
+  required_providers {
+    examples = {
+      source = "previous.htb/terraform/examples"
+    }
+  }
+}
+
+variable "source_path" {
+  type = string
+  default = "/root/examples/hello-world.ts"
+
+  validation {
+    condition = strcontains(var.source_path, "/root/examples/") && !strcontains(var.source_path, "..")
+    error_message = "The source_path must contain '/root/examples/'."
+  }
+}
+
+provider "examples" {}
+
+resource "examples_example" "example" {
+  source_path = var.source_path
+}
+
+output "destination_path" {
+  value = examples_example.example.destination_path
+}
+
+```
+We'll have to look into Terraform's environment variables
