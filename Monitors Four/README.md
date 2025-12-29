@@ -7,7 +7,7 @@
 It's an excessively complicated machine to be placed in the easy section.
 
 It took me about two hours to solve it because there were concepts I'd never seen before, like Docker and others. I usually work on Linux machines, but this Windows machine was quite tough.
-
+#
 If we ping the IP address, we can see that the machine's `Time To Live is (ttl)` `127`, meaning it's a Windows machine.
 ```bash
 PING 10.10.11.98 (10.10.11.98) 56(84) bytes of data.
@@ -129,3 +129,9 @@ python3 exploit.py \
 -url http://cacti.monitorsfour.htb
 ```
 By exploiting this vulnerability, you will gain access to the user's system, and from there you will need to navigate to the `/home/marcus/` directory, where the user.txt file will be located.
+
+## Stuff used in this machine
+- Hashcat
+- Netcat
+- CVE-(CVE-2025-24367)
+- Curl Method
