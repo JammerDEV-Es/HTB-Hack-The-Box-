@@ -145,7 +145,7 @@ QUIT
 
 > Password: Buck3tH4TF0RM3! 
 
-#
+## User Flag:
 
 So now, with this information, we're going to do either an SSH or an FTP connection. I prefer SSH because the SSH shell is more stable than FTP.
 
@@ -154,7 +154,8 @@ ssh nathan@10.10.10.245
 ```
 This will give us the user flag in the `/home/nathan/` directory.
 
-#
+## Root Flag:
+
 
 Let's do a: 
 `getcap -r / 2</dev/null/`
