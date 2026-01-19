@@ -108,7 +108,7 @@ chmod +x $TF
 
 sudo tcpdump -ln -i lo -w /dev/null -W 1 -G 1 -z $TF -Z root
 ```
-After entering those five commands one by one, you'll need to enter a command to log as root. The command to gain root access is "bash -p" (the -p parameter means privilege).
+After entering those five commands one by one, you'll need to enter a command to log as root. 
 
 ## 📝 Final Review:
 And that's it. This isn't so much a write-up as it is a superficial guide on how to complete the machine. There are parts where you have to look up the details or ask yourself why something is used, or why the decision was made to use tcpdump. Completing the machines just to get the flag isn't worthwhile, which is why I'm writing the guide this way. I'm not writing everything out, but I'm giving hints.
